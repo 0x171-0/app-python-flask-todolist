@@ -5,4 +5,4 @@ from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationE
 class AddTodoForm(FlaskForm):
     title = StringField(label='Title:', validators=[DataRequired()])
     description = StringField(label='Description:')
-    submit = SubmitField(label='Sign in')
+    submit = SubmitField(label='Add')

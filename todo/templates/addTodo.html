@@ -2,3 +2,25 @@
 {% block title %}
     Add Todo
 {% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row" style="margin-top:30px; margin-left:20px">
+        <h1 class="h3 mb-3 font-weight-normal">
+            Add New Todo
+        </h1>
+        <form method="POST" class="form-signin" style="color:black">
+            {{ form.hidden_tag() }}
+            <br>
+            {{ form.title.label() }}
+            {{ form.title(class="form-control", placeholder="Todo") }}
+
+            {{ form.description.label() }}
+            {{ form.description(class="form-control", placeholder="description") }}
+
+            <br>
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+
+        </form>
+    </div>
+{% endblock %}
