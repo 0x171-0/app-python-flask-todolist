@@ -1,12 +1,14 @@
 from todo import app, db
 from flask import render_template, request, flash, redirect, url_for
-from todo.form import AddTodoForm
+from todo.form import AddTodoForm, LoginForm, RegisterForm
 from todo.models.todo import Todo
-import json
-
+from todo.models.user import User
+from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
+@app.route('/home')
 @app.route('/todo')
+@login_required
 def home():
     todos = Todo.query.all()
     if len(todos) == 0:
@@ -15,6 +17,7 @@ def home():
     return render_template('home.html', todos=todos)
     
 @app.route('/todo/add',methods=['GET', 'POST'])
+@login_required
 def addTodo():
     form = AddTodoForm()
     if form.validate_on_submit():
@@ -27,3 +30,27 @@ def addTodo():
         for err_msg in form.errors.values():
             flash(f'There was an error with creating a user: {err_msg}', category='danger')
     return render_template('addTodo.html', form=form)
+
+
+@app.route('/user/login', methods=['POST', 'GET'])
+def login_page():
+    form = LoginForm()
+    # validate submit
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and user.check_password_correction(attempted_password=form.password.data):
+            login_user(user)
+            flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
+            return redirect(url_for('home'))    
+        else:
+            flash('Username and password are not match! Please try again', category='danger')
+    return render_template('login.html', form=form)
+
+@app.route('/user/register', methods=['POST', 'GET'])
+def register_page():
+    form = RegisterForm()
+    pass
+
+@app.route('/user/logout', methods=['POST', 'GET'])
+def logout_page():
+    pass
