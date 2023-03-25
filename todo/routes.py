@@ -65,6 +65,8 @@ def register_page():
 
     pass
 
-@app.route('/user/logout', methods=['POST', 'GET'])
+@app.route('/user/logout', methods=['GET'])
 def logout_page():
-    pass
+    logout_user()
+    flash("You have been logged out!", category='info')
+    return redirect(url_for("home"))
