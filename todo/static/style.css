@@ -1,0 +1,11 @@
+.wallpaper-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+.wallpaper{
+    width: 500px;
+    height: auto;
+    background-color: aqua;
+}
